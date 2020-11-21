@@ -3,31 +3,40 @@ import pygame.midi
 import time
 
 NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+VARIATION = ['', 'm', '7', 'm7']
 C4 = 60
 
 
 class Chords_Util:
     def __init__(self):
         self.notes = NOTES
+        self.variation = VARIATION
         self.chords = {}
         self.c_vector = {}
         for note in NOTES:
-            self.c_vector[note] = np.zeros(len(NOTES))
-            self.c_vector[note + 'm'] = np.zeros(len(NOTES))
+            for var in VARIATION:
+                self.c_vector[note+var] = np.zeros(len(NOTES))
+        self.c_vector['N'] = np.zeros(len(NOTES))
 
     def generate_vectors(self):
         # Foreach notes
         for i in range(len(NOTES)):
-            # Major and Minor
-            for j in range(2):
-                target = NOTES[i] if j == 0 else NOTES[i] + 'm'
-                third = (i+4) % 12 if j == 0 else (i+3) % 12
-                fifth = (i+7) % 12
+            for var in VARIATION:
+                target_name = NOTES[i] + var
 
-                self.c_vector[target][i] = 1
-                self.c_vector[target][third] = 1
-                self.c_vector[target][fifth] = 1
-                self.chords[target] = [NOTES[i], NOTES[third], NOTES[fifth]]
+                # Set root and fifth
+                self.c_vector[target_name][i] = 1
+                self.c_vector[target_name][(i + 7) % 12] = 1
+
+                # Check minor
+                if 'm' in var:
+                    self.c_vector[target_name][(i+3) % 12] = 1
+                else:
+                    self.c_vector[target_name][(i+4) % 12] = 1
+
+                # Check seventh
+                if '7' in var:
+                    self.c_vector[target_name][(i+11) % 12] = 1
 
         return self.c_vector
 
