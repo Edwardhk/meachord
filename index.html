@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" style="background: #000; height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./js/sketch.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+    <script src="js/p5.sound.js"></script>
+
+    <!--    width / 1.4, height / 3-->
+    <style>
+        @font-face {
+            font-family: pixelFont;
+            src: url('src/font/Symtext.ttf');
+        }
+        @font-face {
+            font-family: vcrFont;
+            src: url('src/font/Vcr.ttf');
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .btn{
+            border: None;
+            color: white;
+            background: transparent;
+            position: absolute;
+            font-family: pixelFont, serif;
+            font-size: 30px;
+            cursor: pointer;
+
+            left: 62%;
+        }
+        .uploadBtn{
+            bottom: 40%;
+        }
+        .submitBtn{
+            bottom: 33.3%;
+            padding: 0;
+        }
+
+        #chord_result{
+            font-family: vcrFont, serif;
+            font-size: 30px;
+            bottom: 50%;
+            left: 62%;
+        }
+    </style>
+</head>
+<body style="color: #fff; margin: 0; height: 100%">
+    <input type="file" onchange="select_file()"  name="audioFile" id="audioFile" required="required" >
+
+    <label for="audioFile" id="audioFileLabel" class="uploadBtn btn">
+        > Select file
+    </label>
+
+    <input type="button" class="submitBtn btn" value="> Upload"
+           onclick="get_chord_ajax()"
+    >
+    <label id="chord_result" class="btn"></label>
+    <main></main>
+</body>
+</html>
