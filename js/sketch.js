@@ -38,6 +38,7 @@ let get_chord_ajax = () =>{
     formData.append("audioFile", data.files[0]);
     request.open("POST", "http://localhost:5000/detect");
     request.send(formData);
+    document.getElementById('submitBtnId').value = "Loading...";
     console.log(request);
 }
 
@@ -85,7 +86,7 @@ function setup() {
 
 function draw_title() {
     fill(color('rgba(255, 255, 255)'));
-    text('.meachord', width / 1.4, height / 3);
+    text('.meachord', width / 1.4, height / 4);
 }
 
 function draw_fft() {
