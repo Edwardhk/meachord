@@ -1,11 +1,15 @@
 import numpy as np
 import pygame.midi
 import time
+import librosa
+import sounddevice as sd
+from config import Config
 
 NOTES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 VARIATION = ['', 'm', '7', 'm7']
 C4 = 60
 
+cfg = Config()
 
 class Chords_Util:
     def __init__(self):
@@ -67,6 +71,19 @@ class Chords_Util:
             if vec[i]:
                 res.append(self.notes[i])
         return res
+
+    def load_audio(self, filename, dur=None):
+        print("[LOAD] Start loading audio...")
+        y, sr = librosa.load(filename, duration=dur, sr=cfg.sr)
+        minute = int(y.shape[0] / sr / 60)
+        second = y.shape[0] / sr % 60
+        print(f"[LOAD] Loaded audio with {minute} minutes and {second:.2f} seconds...")
+        print(f"[LOAD] Sample rate: {sr}")
+        print(f"[LOAD] Data shape: {y.shape}")
+        return y, sr
+
+    def play_audio(self, y, sr):
+        sd.play(y, sr, blocking=True)
 
     def play_chords_audio(self, scale='C', dur=0.5, vol=127, vec_input=None):
         scale = self.validate(scale)
