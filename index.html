@@ -2,7 +2,7 @@
 <html lang="en" style="background: #000; height: 100%">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Meachord</title>
     <script src="./js/sketch.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
     <script src="js/p5.sound.js"></script>
@@ -29,7 +29,7 @@
             font-size: 30px;
             cursor: pointer;
 
-            left: 62%;
+            left: 22%;
         }
         .uploadBtn{
             bottom: 40%;
@@ -38,18 +38,23 @@
             bottom: 33.3%;
             padding: 0;
         }
+        .titleFont{
+            font-size: 70px;
+            bottom: 60%;
+        }
 
         #chord_result{
             font-family: vcrFont, serif;
-            font-size: 30px;
-            bottom: 50%;
-            left: 62%;
+            font-size: 25px;
+            bottom: 40%;
+            left: 60%;
+            max-width: 500px;
         }
     </style>
 </head>
 <body style="color: #fff; margin: 0; height: 100%">
+    <label class="btn titleFont">.meachord</label>
     <input type="file" onchange="select_file()"  name="audioFile" id="audioFile" required="required" >
-
     <label for="audioFile" id="audioFileLabel" class="uploadBtn btn">
         > Select file
     </label>

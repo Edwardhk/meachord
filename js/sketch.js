@@ -11,8 +11,10 @@ let bar_width;
 document.onreadystatechange = () => {
     if (document.readyState === 'complete') {
         let chord_result = localStorage.getItem('chord_result');
-        if(chord_result != null)
-            document.getElementById('chord_result').innerHTML = chord_result;
+        if(chord_result != null){
+            document.getElementById('chord_result').innerHTML = "Previous result:\n";
+            document.getElementById('chord_result').innerHTML += chord_result;
+        }
     }
 };
 
@@ -43,7 +45,6 @@ let get_chord_ajax = () =>{
 }
 
 let handleResult = (chords, audio_name) =>{
-    document.getElementById('chord_result').innerHTML = chords;
     localStorage.setItem('audio_name', 'upload_tmp/' + audio_name);
     localStorage.setItem('chord_result', chords);
     location.reload();
@@ -94,7 +95,7 @@ function draw_fft() {
     for (let i = 0; i < FFT_BIN; i++) {
         let bar_h = map(spectrum[i], -140, 0, 0, 250);
         c = rainbow[i % rainbow.length];
-        c.setAlpha(0.3 * 255);
+        c.setAlpha(0.2 * 255);
         fill(c);
         noStroke();
         rect(i * bar_width, height, bar_width, -(height * spectrum[i] / 250))
@@ -106,18 +107,20 @@ function draw_wave(){
     let waveform = fft.waveform();
     noFill();
     beginShape();
-    stroke(color('rgba(255, 255, 255)'));
+    c = color('rgba(255, 255, 255)');
+    c.setAlpha(0.2 * 255);
+    stroke(c);
     for (let i = 0; i < waveform.length; i++){
         let x = map(i, 0, waveform.length, 0, width);
-        let y = map( waveform[i], -1, 1, 0, 100);
-        vertex(width - y,x);
+        let y = map( waveform[i], -1, 1, 0, height/2);
+        vertex(x,y);
     }
     endShape();
 }
 
 function draw() {
     clear();
-    draw_title();
+    // draw_title();
     draw_fft();
     draw_wave();
 }
